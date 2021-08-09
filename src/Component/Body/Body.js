@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import Input from '../Input/Input'
-import Databasehandler from '../Databasehandler/Databasehandler'
+
 
 function Body(){
     const [selectedManu , setSelectedManu] = useState("default")
