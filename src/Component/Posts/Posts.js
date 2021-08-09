@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 
+
 function Posts(){
     const [listPost , setListPost] = useState({
         id:0,
@@ -13,16 +14,17 @@ function Posts(){
 
 
     return(
-        <div className="card" >
+
+        <div className="card" style={{width:"600px"}} >
             <div className="card-body">
-                <h5 className="card-title">{listPost.manufacturer}</h5>
-                <h6 className="card-subtitle mb-2 text-muted">{listPost.model}</h6>
+                <h5 className="card-title">{listPost.manufacturer} {listPost.model}</h5>
                 <h6 className="card-subtitle mb-2 text-muted">{listPost.title}</h6>
                 <p className="card-text">{listPost.description}</p>
                 <a className="card-link">Card link</a>
                 <a className="card-link">Another link</a>
   </div>
 </div>
+
 
     )
 }
