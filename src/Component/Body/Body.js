@@ -1,17 +1,27 @@
 import React,{useState} from 'react'
 import Input from '../Input/Input'
+import axios from 'axios'
 
 
 function Body(){
     const [selectedManu , setSelectedManu] = useState("default")
-        console.log(selectedManu)
-        console.log("")
+    const [listPost , setListPost] = useState([])
+    console.log(selectedManu)
+    
+    const getClickedManu=(event)=>{
+        setSelectedManu(event.target.id)
+    }
+        
+        const getPosts = ()=> {
+            console.log("kérés elküldve")
+        axios.get("http://localhost:3001/getposts").then((response) =>setListPost(response.data))
+        }
     
     return(
         <div>
             <Input ></Input>
             
-        <section class="page-section portfolio" id="portfolio">
+        <section class="page-section portfolio">
             <div class="container">
                 
                 <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Márkák</h2>
@@ -25,9 +35,9 @@ function Body(){
                 <div class="row justify-content-center">
 
                     <div class="col-md-6 col-lg-4 mb-5" >
-                        <div class="portfolio-item mx-auto" data-toggle="modal" id="audi">
-                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" name="audi" 
-                            onClick={(event)=>{setSelectedManu(event.target.name)}}>
+                        <div class="portfolio-item mx-auto" data-toggle="modal">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" id="audi" 
+                            onClick={getClickedManu}>
                                 <div class="portfolio-item-caption-content text-center text-white noClick">X darab</div>
                             </div>
                             <img class="img-fluid" src="assets/img/portfolio/audi.jpg" alt="..."/>
@@ -35,9 +45,9 @@ function Body(){
                     </div>
                     
                     <div class="col-md-6 col-lg-4 mb-5">
-                        <div class="portfolio-item mx-auto" data-toggle="modal" value="bmw">
-                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" name="bmw" 
-                            onClick={(event)=>{setSelectedManu(event.target.name)}}>
+                        <div class="portfolio-item mx-auto" data-toggle="modal" >
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" id="bmw" 
+                            onClick={getClickedManu}>
                                 <div class="portfolio-item-caption-content text-center text-white noClick">X darab</div>
                             </div>
                             <img class="img-fluid" src="assets/img/portfolio/bmw.jpg" alt="..." />
@@ -45,9 +55,9 @@ function Body(){
                     </div>
                     
                     <div class="col-md-6 col-lg-4 mb-5">
-                        <div class="portfolio-item mx-auto" data-toggle="modal" value="seat">
-                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" name="seat"
-                            onClick={(event)=>{setSelectedManu(event.target.name)}}>
+                        <div class="portfolio-item mx-auto" data-toggle="modal">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" id="seat"
+                            onClick={getClickedManu}>
                                 <div class="portfolio-item-caption-content text-center text-white noClick">X darab</div>
                             </div>
                             <div></div>
@@ -56,9 +66,9 @@ function Body(){
                     </div>
                     
                     <div class="col-md-6 col-lg-4 mb-5 mb-lg-0">
-                        <div class="portfolio-item mx-auto" data-toggle="modal" value="vw">
-                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" name="vw"
-                            onClick={(event)=>{setSelectedManu(event.target.name)}}>
+                        <div class="portfolio-item mx-auto" data-toggle="modal">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" id="vw"
+                            onClick={getClickedManu}>
                                 <div class="portfolio-item-caption-content text-center text-white noClick">X darab</div>
                             </div>
                             <img class="img-fluid" src="assets/img/portfolio/vw.png" alt="..." />
@@ -68,6 +78,22 @@ function Body(){
                 </div>
             </div>
         </section>
+        <div >
+            <button className="button" onClick={getPosts}>Összes hiba</button>
+        </div>
+        
+            {listPost.map((val,key)=>{
+                return (
+                    <div className="card" style={{width:"600px"}} >
+                        <div className="card-body">
+                            <h5 className="card-title">{val.manufacturer} {val.model}</h5>
+                            <h6 className="card-subtitle mb-2 text-muted">{val.title}</h6>
+                            <p className="card-text">{val.description}</p>
+                        </div>
+                    </div>
+                )
+            })}
+        
         </div>
         
     )

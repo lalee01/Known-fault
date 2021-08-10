@@ -16,7 +16,7 @@ function Navbar(){
     }
 
     const loginHandler =()=>{
-      if(enteredUsername == "admin" && enteredPassword == "admin"){
+      if(enteredUsername === "admin" && enteredPassword === "admin"){
         setIsItLogged (!isItLogged)
       }
       else{
