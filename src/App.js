@@ -11,7 +11,6 @@ function App() {
     <div>
       <Body />
       <Navbar />
-      <Posts />
     </div>
   );
 }

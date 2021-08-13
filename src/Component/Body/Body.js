@@ -1,6 +1,14 @@
 import React,{useState} from 'react'
-import Input from '../Input/Input'
 import axios from 'axios'
+import Input from '../Input/Input'
+import Audi from '../Audi/Audi'
+import Registration from '../Registration/Registration';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+  } from "react-router-dom";
 
 
 function Body(){
@@ -19,8 +27,17 @@ function Body(){
     
     return(
         <div>
-            <Input ></Input>
-            
+            <Router>
+            <Link to="/registration"><h1>Regisztráció</h1></Link>
+            <Switch>
+                <Route path="/registration"><Registration/></Route>
+            </Switch>
+            <Link to="/input"><h1>Poszt küldése</h1></Link>
+            <Switch>
+                <Route path="/input"><Input/></Route>
+            </Switch>
+            </Router>
+
         <section class="page-section portfolio">
             <div class="container">
                 
@@ -36,8 +53,12 @@ function Body(){
 
                     <div class="col-md-6 col-lg-4 mb-5" >
                         <div class="portfolio-item mx-auto" data-toggle="modal">
-                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" id="audi" 
-                            onClick={getClickedManu}>
+                            <Router>
+                                <Link to="/audi"><div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" id="audi" onClick={getClickedManu}></Link>
+                                <Switch>
+                                <Route path="/audi"><Audi/></Route>
+                                </Switch>
+                                </Router>
                                 <div class="portfolio-item-caption-content text-center text-white noClick">X darab</div>
                             </div>
                             <img class="img-fluid" src="assets/img/portfolio/audi.jpg" alt="..."/>

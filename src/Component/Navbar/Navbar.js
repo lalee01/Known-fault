@@ -32,7 +32,7 @@ function Navbar(){
     return(
         <nav className="navbar  bg-secondary text-uppercase fixed-top"  id="mainNav">
       <div className="container">
-          <a className="navbar-brand js-scroll-trigger" href="#page-top">Ismert hibák online</a>
+          <a className="navbar-brand js-scroll-trigger" href="/">Ismert hibák online</a>
           <button className="navbar-toggler navbar-toggler-right bg-primary text-uppercase font-weight-bold text-white rounded"  type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" >
               {loggedNotify}
               <i className="fas fa-bars"></i>
