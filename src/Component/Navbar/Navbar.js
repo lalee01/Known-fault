@@ -1,4 +1,10 @@
 import React, {useState} from 'react'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 function Navbar(){
     const [isItLogged ,setIsItLogged] = useState(false)
@@ -32,7 +38,13 @@ function Navbar(){
     return(
         <nav className="navbar  bg-secondary text-uppercase fixed-top"  id="mainNav">
       <div className="container">
-          <a className="navbar-brand js-scroll-trigger" href="/">Ismert hibák online</a>
+        <Router>
+          <Link to="/"><a className="navbar-brand js-scroll-trigger">Ismert hibák online</a></Link>
+          <Switch>
+            <Route path="/" exact/>
+          </Switch>
+          </Router>
+          
           <button className="navbar-toggler navbar-toggler-right bg-primary text-uppercase font-weight-bold text-white rounded"  type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" >
               {loggedNotify}
               <i className="fas fa-bars"></i>
