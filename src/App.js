@@ -1,6 +1,6 @@
 import './App.css';
 import React,{useState} from 'react'
-import axios from 'axios'
+import Axios from 'axios'
 import Input from './Component/Input/Input'
 import Audi from './Component//Audi/Audi'
 import Home from './Component/Home/Home'
@@ -12,20 +12,17 @@ import {
     Link
   } from "react-router-dom";
 
+
 function App() {
   const [isItLogged ,setIsItLogged] = useState(false)
     const [enteredUsername , setEnteredUsername] = useState("")
     const [enteredPassword , setEnteredPassword] = useState("")
-    const [wrongLogin ,setWrongLogin] = useState(false)
     const [listPost , setListPost] = useState([])
 
-    const isItWrongLogin = wrongLogin ? {display : 'block'} : {display : 'none'}
     const turnHidden = isItLogged ? {display : 'none'} : {display : 'block'}
     const loggedNotify = isItLogged ? "Belépve" : "Belépés"
   
-
-
-    
+ 
     const usernameHandler = (event) =>{
         setEnteredUsername(event.target.value)
     }
@@ -35,21 +32,20 @@ function App() {
     }
 
     const loginHandler =()=>{
-      if(enteredUsername === "admin" && enteredPassword === "admin"){
-        setIsItLogged (!isItLogged)
-      }
-      else{
-        setWrongLogin(!wrongLogin) 
-          }
-      }
-    
-        
+     
+      Axios.post("http://localhost:3001/login",{
+        username: enteredUsername,
+        password: enteredPassword,
+      }).then (()=>{
+      console.log("success")
+      })
+    }
+          
     const getPosts = ()=> {
             console.log("kérés elküldve")
-            axios.get("http://localhost:3001/getposts").then((response) =>setListPost(response.data))
+            Axios.get("http://localhost:3001/getposts").then((response) =>setListPost(response.data))
         }
     
-
   return (
     <div>
       <Router>
@@ -72,9 +68,6 @@ function App() {
                   <input type="password" name="password" onChange={passwordHandler}></input></a></li>
                   <li className="nav-item mx-0 mx-lg-1"><a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" >
                       <input type="submit" onClick = {loginHandler} value="Bejelentkezés"></input></a></li>
-                      <div style={isItWrongLogin}> 
-                      <h6 style={{color:"red"}}>Hibás felhasználónév vagy jelszó!</h6>
-                        </div>
               </ul>
           </div>
       </div>
