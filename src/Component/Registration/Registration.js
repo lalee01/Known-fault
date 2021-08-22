@@ -10,15 +10,12 @@ function Registration (){
     const submitHandler=()=>{
         if(password!==passwordConfirm){
             alert("Jelszavak nem egyeznek meg!!!")
-            console.log(email , username)
         }else{
             Axios.post("http://localhost:3001/register",{
                 username: username,
                 password: password,
                 email: email,
             }).then (()=>{
-            console.log("success")
-            console.log(password)
             window.location.reload()
             alert("Sikeres regisztráció")
             })
