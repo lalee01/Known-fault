@@ -4,8 +4,6 @@ import {Link} from "react-router-dom";
 function Home(){
     const [selectedManu , setSelectedManu] = useState("default")
 
-    console.log(selectedManu)
-
     const getClickedManu=(event)=>{
         setSelectedManu(event.target.id)
     }

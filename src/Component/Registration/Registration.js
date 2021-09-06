@@ -1,4 +1,4 @@
-import  {useState} from 'react'
+import  {useEffect, useState} from 'react'
 import Axios from 'axios'
 
 function Registration (){
@@ -16,8 +16,8 @@ function Registration (){
                 password: password,
                 email: email,
             }).then (()=>{
-            window.location.reload()
             alert("Sikeres regisztráció")
+            window.location.reload()
             })
         }
     }
