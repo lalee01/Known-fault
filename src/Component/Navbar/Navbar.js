@@ -1,69 +1,72 @@
-import React, {useState} from 'react'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import React,{useState,useEffect} from 'react'
+import Cookies from 'js-cookie'
+import Axios from 'axios'
+import {Link} from "react-router-dom";
+import { uid } from 'uid';
 
 function Navbar(){
-    const [isItLogged ,setIsItLogged] = useState(false)
-    const [enteredUsername , setEnteredUsername] = useState("")
-    const [enteredPassword , setEnteredPassword] = useState("")
-    const [wrongLogin ,setWrongLogin] = useState(false)
+  const [isItLogged ,setIsItLogged] = useState(false)
+  const [enteredUsername , setEnteredUsername] = useState("")
+  const [enteredPassword , setEnteredPassword] = useState("")
+  const turnHidden = isItLogged===true ? {display : 'none'} : {display : 'block'}
+  const islogOutStyle = isItLogged===true ? {display : 'block'} : {display : 'none'}
 
-    
-    const usernameHandler = (event) =>{
-        setEnteredUsername(event.target.value)
-    }
-    
-    const passwordHandler = (event) =>{
-        setEnteredPassword(event.target.value)
-    }
+  useEffect(()=>{
+    setIsItLogged(Boolean(Cookies.get('username')))
+  }
+  ,[])
 
-    const loginHandler =()=>{
-      if(enteredUsername === "admin" && enteredPassword === "admin"){
-        setIsItLogged (!isItLogged)
-      }
-      else{
-        setWrongLogin(!wrongLogin) 
-          }
-      }
+  const logOutHandler = () =>{
+    setIsItLogged(false)
+    Cookies.remove('username')
+  }
 
+  const usernameHandler = (event) =>{ 
+      setEnteredUsername(event.target.value)
+  }
   
-    const isItWrongLogin = wrongLogin ? {display : 'block'} : {display : 'none'}
-    const turnHidden = isItLogged ? {display : 'none'} : {display : 'block'}
-    const loggedNotify = isItLogged ? "Belépve" : "Belépés"
+  const passwordHandler = (event) =>{
+      setEnteredPassword(event.target.value)
+  }
 
+  const loginHandler =()=>{
+   Axios.post("http://localhost:3001/login",{
+      username: enteredUsername,
+      password: enteredPassword,
+    }).then ((response)=>{
+      if(Boolean(response.data)){
+        setIsItLogged(Boolean(response.data))
+        Cookies.set("username", Boolean(response.data), { expires: 1 })
+        Cookies.set("id",uid(32),{expires : 1})
+      }else{
+        alert("Hibás felhasználónév vagy jelszó!")
+      }
+    })
+  }
     return(
+      <div>
         <nav className="navbar  bg-secondary text-uppercase fixed-top"  id="mainNav">
-      <div className="container">
-        <Router>
-          <Link to="/"><a className="navbar-brand js-scroll-trigger">Ismert hibák online</a></Link>
-          <Switch>
-            <Route path="/" exact/>
-          </Switch>
-          </Router>
-          
-          <button className="navbar-toggler navbar-toggler-right bg-primary text-uppercase font-weight-bold text-white rounded"  type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" >
-              {loggedNotify}
-              <i className="fas fa-bars"></i>
-               </button>
+        <div className="container">
+          <Link to="/"><a className="navbar-brand js-scroll-trigger" href="/">Ismert hibák online</a></Link>
+          <button style={turnHidden} className="navbar-toggler navbar-toggler-right bg-primary text-uppercase font-weight-bold text-white rounded"  type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" >
+                Bejelentkezés
+          </button>
+          <button onClick={logOutHandler} style={islogOutStyle}className="navbar-toggler navbar-toggler-right bg-primary text-uppercase font-weight-bold text-white rounded"  type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" >
+                Kijelentkezés
+          </button>
           <div className="collapse navbar-collapse"  id="navbarResponsive">
-              <ul className="navbar-nav ml-auto" style={turnHidden}>
-                  <li className="nav-item mx-0 mx-lg-1"><a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" >Felhasználó név 
-                  <input type="text" name="username" onChange={usernameHandler}></input></a></li>
-                  <li className="nav-item mx-0 mx-lg-1"><a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" >Jelszó
-                  <input type="password" name="password" onChange={passwordHandler}></input></a></li>
-                  <li className="nav-item mx-0 mx-lg-1"><a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" >
-                      <input type="submit" onClick = {loginHandler} value="Bejelentkezés"></input></a></li>
-                      <div style={isItWrongLogin}> 
-                      <h6 style={{color:"red"}}>Hibás felhasználónév vagy jelszó!</h6>
-                        </div>
-              </ul>
-          </div>
-      </div>
-  </nav>
+            <ul className="navbar-nav ml-auto" style={turnHidden}>
+              <li className="nav-item mx-0 mx-lg-1"><h6 className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" style={{color:"white"}}>Felhasználó név:
+              <input type="text" name="username" onChange={usernameHandler}></input></h6></li>
+              <li className="nav-item mx-0 mx-lg-1"><h6 className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" style={{color:"white"}}>Jelszó:
+              <input type="password" name="password" onChange={passwordHandler}></input></h6></li>
+              <li className="nav-item mx-0 mx-lg-1"><button type="submit" className="login-button" style={{marginBottom:"20px"}}onClick={loginHandler}>Bejelentkezés</button></li>
+               <Link to="/registration"><h5>Regisztráció</h5></Link>
+            </ul>
+            </div>
+        </div>
+    </nav>
+    </div>
     )
 }
 export default Navbar
