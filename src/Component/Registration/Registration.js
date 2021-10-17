@@ -21,11 +21,19 @@ function Registration (){
         setEmail(event.target.value)
     }
 
-    const submitHandler=()=>{
-        console.log(validator.isEmail(email))
-        if(password!==passwordConfirm){
-            alert("Jelszavak nem egyeznek meg!!!")
+    const validationHandler=()=>{
+        if(validator.isLength(username,{min:6,max:16})&&
+            validator.equals(password,passwordConfirm)&&
+            validator.isLength(password,{min:6,max:16})&&
+            validator.isEmail(email)&&
+            validator.isLength(email,{min:6,max:256}))
+        {
+            submitHandler()
         }else{
+            alert("Beviteli mező nem jó")
+        }
+    }
+    const submitHandler=()=>{
             Axios.post("http://localhost:3001/register",{
                 username: username,
                 password: password,
@@ -35,20 +43,19 @@ function Registration (){
             window.location.reload()
             })
         }
-    }
  
     return(
         <div>
             <div>
                 Username:
-                <input type="text" onChange={usernameHandler}></input>
+                <input type="text" onChange={usernameHandler}></input><br></br>
                 Password:
-                <input type="password" onChange={passwordHander}></input>
+                <input type="password" onChange={passwordHander}></input><br></br>
                 Password confirm:
-                <input type="password" onChange={passwordConfirmHandler}></input>
+                <input type="password" onChange={passwordConfirmHandler}></input><br></br>
                 E-mail:
-                <input type="e-mail" onChange={emailHandler}></input>
-                <button onClick={submitHandler}>Regisztrálás </button>
+                <input type="e-mail" onChange={emailHandler}></input><br></br>
+                <button onClick={validationHandler}>Regisztrálás </button>
              </div>
         </div>
     )

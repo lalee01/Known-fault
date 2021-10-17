@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react'
 import Cookies from 'js-cookie'
 import Axios from 'axios'
 import {Link} from "react-router-dom";
-import { uid } from 'uid';
+import {uid} from 'uid'
 
 function Navbar(){
   const [isItLogged ,setIsItLogged] = useState(false)
@@ -19,6 +19,7 @@ function Navbar(){
   const logOutHandler = () =>{
     setIsItLogged(false)
     Cookies.remove('username')
+    Cookies.remove('id')
   }
 
   const usernameHandler = (event) =>{ 
@@ -37,7 +38,8 @@ function Navbar(){
       if(Boolean(response.data)){
         setIsItLogged(Boolean(response.data))
         Cookies.set("username", Boolean(response.data), { expires: 1 })
-        Cookies.set("id",uid(32),{expires : 1})
+        Cookies.set("id",uid(16),{expires:1})
+
       }else{
         alert("Hibás felhasználónév vagy jelszó!")
       }
