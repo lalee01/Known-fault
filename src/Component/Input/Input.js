@@ -1,6 +1,8 @@
 import React,{useState} from 'react'
 import Axios from 'axios'
 import {toast} from 'react-toastify'
+import Cookies from 'js-cookie'
+import { uid } from 'uid'
 
 function Input (){
     const [title , setTitle] = useState("")
@@ -8,6 +10,8 @@ function Input (){
     const [model , setModel] = useState("")
     const [description , setDescription] = useState("")
     const [files,setFiles] = useState([])
+    const [source,setSource]= useState("")
+
     const onSuccess = (savedFiles) => {
         setFiles(savedFiles)
     }
@@ -17,15 +21,17 @@ function Input (){
     }
     const addPost = (e) =>{
         e.preventDefault()
-        console.log(files)
 
         const data = new FormData()
+        const postid= uid(15)
 
         Axios.post("http://localhost:3001/create",{
             title: title,
             manufacturer: manufacturer,
             model: model,
             description : description,
+            postid:postid,
+
             }).then (()=>{
                 console.log("success")
             })
@@ -37,28 +43,43 @@ function Input (){
         Axios.post('http://localhost:3001/upload', data)
             .then((response) => {
                 toast.success('Upload Success');
+                console.log(data)
                 onSuccess(response.data)
             })
             .catch((e) => {
                 toast.error('Upload Error')
             })
+
+        for(let i = 0; i < files.length; i++) {
+            console.log(files.[i].name)
+            Axios.post("http://localhost:3001/uploaddb",{
+                username:Cookies.get("username"),
+                postid:postid,
+                name:files.[i].name,
+                source:source
+            })
+        }
         }
     
     return(
         <div style={{padding:"5px", marginTop:"15px"}}>
-            Cím<br></br>
+            Cím:<br></br>
             <input type="text" name="title" onChange={(event)=>setTitle(event.target.value)}></input><br></br>
-            Gyártó<br></br>
+            Gyártó:<br></br>
             <input type="text" name="manufacturer" onChange={(event)=>setManufacturer(event.target.value)}></input><br></br>
-            Modell<br></br>
+            Modell:<br></br>
             <input type="text" name="model" onChange={(event)=>setModel(event.target.value)}></input><br></br>
-            Leírás<br></br>
+            Leírás:<br></br>
             <input type="text" name="description" onChange={(event)=>setDescription(event.target.value)}></input><br></br>
             <form method="post" action="#" id="#">
                 <div className="form-group files" ><br></br>
                     <input type="file" onChange={fileUploadHandler} className="form-control"  multiple/>
                 </div>  
-            </form> 
+            </form>
+            <br></br>
+            Forrás:
+            <br></br>
+            <input type="text" name="source" onChange={(event=>{setSource(event.target.value)})}></input>
             <button type="submit" onClick={addPost}>Küldés</button>
         </div>
     );

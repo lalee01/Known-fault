@@ -12,14 +12,16 @@ function Navbar(){
   const islogOutStyle = isItLogged===true ? {display : 'block'} : {display : 'none'}
 
   useEffect(()=>{
-    setIsItLogged(Boolean(Cookies.get('username')))
+    setIsItLogged(Boolean(Cookies.get('logged')))
   }
   ,[])
 
   const logOutHandler = () =>{
     setIsItLogged(false)
-    Cookies.remove('username')
+    Cookies.remove('logged')
     Cookies.remove('id')
+    Cookies.remove('username')
+    window.location.reload()
   }
 
   const usernameHandler = (event) =>{ 
@@ -37,8 +39,10 @@ function Navbar(){
     }).then ((response)=>{
       if(Boolean(response.data)){
         setIsItLogged(Boolean(response.data))
-        Cookies.set("username", Boolean(response.data), { expires: 1 })
+        Cookies.set("logged", Boolean(response.data), { expires: 1 })
         Cookies.set("id",uid(16),{expires:1})
+        Cookies.set("username",enteredUsername,{expires:1})
+        window.location.reload()
 
       }else{
         alert("Hibás felhasználónév vagy jelszó!")
