@@ -3,6 +3,7 @@ import Axios from 'axios'
 import {toast} from 'react-toastify'
 import Cookies from 'js-cookie'
 import { uid } from 'uid'
+import validator from 'validator'
 
 function Input (){
     const [title , setTitle] = useState("")
@@ -12,6 +13,19 @@ function Input (){
     const [files,setFiles] = useState([])
     const [source,setSource]= useState("")
 
+    const validationHandler = ()=>{
+        if(validator.isLength(title,{min:3,max:16})&&
+            validator.isLength(manufacturer,{min:1,max:16})&&
+            validator.isLength(model,{min:1,max:16})&&
+            validator.isLength(description,{min:6,max:128})&&
+            validator.isLength(source,{min:1,max:16})
+        ){
+            addPost()
+        }else{
+            toast.error('Beviteli mező Error')
+        }
+    }
+
     const onSuccess = (savedFiles) => {
         setFiles(savedFiles)
     }
@@ -19,8 +33,7 @@ function Input (){
     const fileUploadHandler=(e)=>{
         setFiles(e.target.files)
     }
-    const addPost = (e) =>{
-        e.preventDefault()
+    const addPost = () =>{
 
         const data = new FormData()
         const postid= uid(15)
@@ -51,11 +64,11 @@ function Input (){
             })
 
         for(let i = 0; i < files.length; i++) {
-            console.log(files.[i].name)
+            console.log(files[i].name)
             Axios.post("http://localhost:3001/uploaddb",{
                 username:Cookies.get("username"),
                 postid:postid,
-                name:files.[i].name,
+                name:files[i].name,
                 source:source
             })
         }
@@ -80,7 +93,7 @@ function Input (){
             Forrás:
             <br></br>
             <input type="text" name="source" onChange={(event=>{setSource(event.target.value)})}></input>
-            <button type="submit" onClick={addPost}>Küldés</button>
+            <button type="submit" onClick={validationHandler}>Küldés</button>
         </div>
     );
 }

@@ -1,6 +1,7 @@
 import  {useState} from 'react'
 import Axios from 'axios'
 import validator from 'validator'
+import {toast} from 'react-toastify'
 
 function Registration (){
     const [username , setUsername] = useState("")
@@ -30,7 +31,7 @@ function Registration (){
         {
             submitHandler()
         }else{
-            alert("Beviteli mező nem jó")
+            toast.error("Beviteli mező nem jó")
         }
     }
     const submitHandler=()=>{
@@ -38,14 +39,21 @@ function Registration (){
                 username: username,
                 password: password,
                 email: email,
-            }).then (()=>{
-            alert("Sikeres regisztráció")
-            window.location.reload()
+            }).then ((response)=>{
+                if(Boolean(response.data[1])){
+                    toast.success(response.data[0])
+                    setTimeout(function() {
+                        window.location.reload()
+                    }, 8000)
+                }else{
+                    toast.error(response.data[0])
+                }
             })
         }
  
     return(
         <div>
+            
             <div>
                 Username:
                 <input type="text" onChange={usernameHandler}></input><br></br>
@@ -57,6 +65,7 @@ function Registration (){
                 <input type="e-mail" onChange={emailHandler}></input><br></br>
                 <button onClick={validationHandler}>Regisztrálás </button>
              </div>
+             
         </div>
     )
 }

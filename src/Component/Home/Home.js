@@ -1,12 +1,7 @@
-import {useState} from 'react'
 import {Link} from "react-router-dom";
 
 function Home(){
-    const [selectedManu , setSelectedManu] = useState("default")
 
-    const getClickedManu=(event)=>{
-        setSelectedManu(event.target.id)
-    }
     
  return(
     <section className="page-section portfolio">
@@ -27,7 +22,7 @@ function Home(){
                     
                         
                         <Link  to="/audi">
-                            <div className="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" id="audi" onClick={getClickedManu} />
+                            <div className="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" id="audi"/>
                         </Link>
                    
                     <img className="img-fluid" src="assets/img/portfolio/audi.jpg" alt="..."/>
@@ -36,8 +31,7 @@ function Home(){
             
             <div className="col-md-6 col-lg-4 mb-5">
                 <div className="portfolio-item mx-auto" data-toggle="modal" >
-                    <div className="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" id="bmw" 
-                    onClick={getClickedManu}>
+                    <div className="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" id="bmw" >
                         <div className="portfolio-item-caption-content text-center text-white noClick">X darab</div>
                     </div>
                     <img className="img-fluid" src="assets/img/portfolio/bmw.jpg" alt="..." />
@@ -46,8 +40,7 @@ function Home(){
             
             <div className="col-md-6 col-lg-4 mb-5">
                 <div className="portfolio-item mx-auto" data-toggle="modal">
-                    <div className="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" id="seat"
-                    onClick={getClickedManu}>
+                    <div className="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" id="seat">
                         <div className="portfolio-item-caption-content text-center text-white noClick">X darab</div>
                     </div>
                     <div></div>
@@ -57,8 +50,7 @@ function Home(){
             
             <div className="col-md-6 col-lg-4 mb-5 mb-lg-0">
                 <div className="portfolio-item mx-auto" data-toggle="modal">
-                    <div className="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" id="vw"
-                    onClick={getClickedManu}>
+                    <div className="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" id="vw">
                         <div className="portfolio-item-caption-content text-center text-white noClick">X darab</div>
                     </div>
                     <img className="img-fluid" src="assets/img/portfolio/vw.png" alt="..." />

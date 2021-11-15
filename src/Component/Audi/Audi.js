@@ -1,4 +1,4 @@
-import react , {useState,useEffect} from 'react'
+import {useState,useEffect} from 'react'
 import './Audi.css';
 import Axios from 'axios'
 
@@ -24,7 +24,7 @@ function Audi(){
                         </div>
                     </div>
                 )
-                 } )}
+            })}
         </div>
     )
 }

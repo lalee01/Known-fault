@@ -32,7 +32,8 @@ function Navbar(){
       setEnteredPassword(event.target.value)
   }
 
-  const loginHandler =()=>{
+  const loginHandler =(e)=>{
+    e.preventDefault()
    Axios.post("http://localhost:3001/login",{
       username: enteredUsername,
       password: enteredPassword,
@@ -61,6 +62,7 @@ function Navbar(){
                 Kijelentkezés
           </button>
           <div className="collapse navbar-collapse"  id="navbarResponsive">
+            <form>
             <ul className="navbar-nav ml-auto" style={turnHidden}>
               <li className="nav-item mx-0 mx-lg-1"><h6 className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" style={{color:"white"}}>Felhasználó név:
               <input type="text" name="username" onChange={usernameHandler}></input></h6></li>
@@ -69,6 +71,7 @@ function Navbar(){
               <li className="nav-item mx-0 mx-lg-1"><button type="submit" className="login-button" style={{marginBottom:"20px"}}onClick={loginHandler}>Bejelentkezés</button></li>
                <Link to="/registration"><h5>Regisztráció</h5></Link>
             </ul>
+            </form>
             </div>
         </div>
     </nav>
